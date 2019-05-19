@@ -290,8 +290,9 @@ function run_benchmark() {
     local instances=$2
     local inject=$3
     local log_dir="${BENCHMARK_LOGFILE_DIR:-.}/"
-    local duration=${4:-30m}
-    local rate=${5:-800}
+    local duration=${4:-10m}
+    local rate=${5:-100}
+    local threads=${6:-8}
 
     local script_dir=$(dirname ${BASH_SOURCE[0]})
     local template="${script_dir}/../wrk2/wrk2.yaml.tmpl"
@@ -300,7 +301,8 @@ function run_benchmark() {
 
     ${script_dir}/../wrk2/render.sh --instances $instances \
                                     --duration $duration \
-                                    --rate $rate > $deployment
+                                    --rate $rate \
+                                    --threads $threads > $deployment
 
     echo "Injecting service mesh via '$inject $deployment'"
     $inject $deployment > $deployment_injected

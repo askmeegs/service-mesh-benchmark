@@ -5,16 +5,19 @@ set -euo pipefail
 script_dir=$(dirname ${BASH_SOURCE[0]})
 source "$script_dir/../common.sh"
 
-nr_apps="10"
+nr_apps="4"
 [ $# -ge 1 ] && nr_apps="$1"
 
-duration="30m"
+duration="10m"
 [ $# -ge 2 ] && duration="$2"
 
-rate="800"
+rate="100"
 [ $# -ge 3 ] && rate="$3"
 
-linkerd=$(grok_cmd 4 "linkerd2-cli-edge-19.5.3-linux" $@)
+threads="8"
+[ $# -ge 4 ] && threads="$4"
+
+linkerd=$(grok_cmd 5 "linkerd2-cli-edge-19.5.3-linux" $@)
 [ -z $linkerd ] && { echo "Aborting."; exit 1; }
 
 asset_dir="${script_dir}/../../assets"
@@ -40,7 +43,7 @@ clear
 echo "Sleeping for $((5*nr_apps)) seconds to let injected apps settle some more."
 sleep $((5*nr_apps))
 
-run_benchmark "linkerd" $nr_apps "$linkerd inject --manual" "$duration" "$rate"
+run_benchmark "linkerd" $nr_apps "$linkerd inject --manual" "$duration" "$rate" "$threads"
 
 echo "### Cleaning up..."
 kubectl delete -f emojivoto.injected.yaml --wait=true --grace-period=1 --all=true || true
