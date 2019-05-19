@@ -21,7 +21,7 @@ istioctl=$(grok_cmd 5 "istioctl" $@)
 [ -z $istioctl ] && { echo "Aborting."; exit 1; }
 
 istio_type="tuned"
-[ $# -ge 6 ] && istio_type="$5"
+[ $# -ge 6 ] && istio_type="$6"
 
 asset_dir="${script_dir}/../../assets"
 KUBECONFIG=$(print_kubeconfig_path "$asset_dir")
