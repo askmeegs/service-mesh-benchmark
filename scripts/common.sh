@@ -76,17 +76,20 @@ function taint_random_worker_node() {
     local nr_apps="$1"
     local taint="$2"
 
-    local wnode_count=$(kubectl get nodes | grep worker | wc -l)
+    # local wnode_count=$(kubectl get nodes | grep worker | wc -l)
 
-    [ $nr_apps -ge $wnode_count ] && {
-        echo "Benchmarked apps >= workers ($nr_apps >= $wnode_count)"
-        echo " Tainting a random node so the benchmark load generator runs"
-        echo " separate from the benchmarked apps."
-    }
+    # [ $nr_apps -ge $wnode_count ] && {
+    #     echo "Benchmarked apps >= workers ($nr_apps >= $wnode_count)"
+    #     echo " Tainting a random node so the benchmark load generator runs"
+    #     echo " separate from the benchmarked apps."
+    # }
 
-    local rnd_node_nr=$(((RANDOM * wnode_count) / 32767 + 1))
-    local rnd_node=$(kubectl get nodes | grep worker \
-                | sed -n "${rnd_node_nr}p" | awk '{print $1}')
+    # local rnd_node_nr=$(((RANDOM * wnode_count) / 32767 + 1))
+    # local rnd_node=$(kubectl get nodes | grep worker \
+    #             | sed -n "${rnd_node_nr}p" | awk '{print $1}')
+
+
+    local rnd_node="gke-istio-bench-default-pool-f3c98364-2zf9"
 
     kubectl taint nodes "$rnd_node" "$taint"=None:NoSchedule
 }
