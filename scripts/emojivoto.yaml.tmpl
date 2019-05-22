@@ -147,7 +147,7 @@ spec:
           name: grpc
         resources:
           requests:
-            cpu: 100m
+            cpu: 1000m
       affinity:
         # set this to podAffinity to force load generator and app on the same
         #  node.
@@ -208,7 +208,7 @@ spec:
           name: grpc
         resources:
           requests:
-            cpu: 100m
+            cpu: 1000m
       affinity:
         # set this to podAffinity to force load generator and app on the same
         #  node.
@@ -334,6 +334,6 @@ spec:
 #        name: vote-bot
 #        resources:
 #          requests:
-#            cpu: 10m
+#            cpu: 100m
 #status: {}
 #---

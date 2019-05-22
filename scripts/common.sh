@@ -91,7 +91,7 @@ function taint_random_worker_node() {
 
     local rnd_node="gke-istio-bench-default-pool-f3c98364-2zf9"
 
-    kubectl taint nodes "$rnd_node" "$taint"=None:NoSchedule
+    kubectl taint nodes "$rnd_node" "$taint"=None:NoSchedule --overwrite
 }
 #---
 
